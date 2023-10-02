@@ -1,0 +1,46 @@
+Roberta Munive Solo Project
+
+Link to GitHub repository: https://github.com/roberta-munive/coding_dojo_solo_project
+
+Stack: python-flask-mySQL
+
+Description of Project:
+
+Noteworthy Projects is an application that allows real estate agents to keep track of the properties that they are currently showing their buyer clients.  The real estate agent can take notes on each of the properties as the buyer goes through the decision making process.
+
+Features:  
+
+- Registration and login (with validation)
+- List of all buyer clients
+- Add or delete clients
+  - When adding a client, first name and last name are required
+- Status of client home buying journey
+  - (Showing, Offer Made, Option Period, Contract, Closed, Commission Received)
+- View properties associated with each client
+- Edit, view, or delete the properties associated with each client
+- Upon creating a property, the real estate agent must enter the street, city, state, and zipcode of the property
+  - Other fields will be optional with no default values
+- Real estate agent can keep track of the following information associated with a particular property:
+  - Status
+    - (Not Interested, Under Consideration, Offer Made, Option Period, Contract, Closed)
+  - Client Ranking
+    - An integer number
+    - Is the property first choice, second choice, etc?
+    - Alternatively, could be used to rank on a scale (e.g., 7 out of 10)
+    - This is being left to the preference of the real estate agent
+  - Property Type
+    - Unimproved Land, New Construction, Pre-Owned, Condominium
+  - Year Constructed
+  - List Price
+  - Positives
+    - Pros of the property
+  - Negatives
+    - Cons of the property
+  - Fields will be prepopulated when the real estate agent goes to edit a property
+
+  
+
+
+
+
+
