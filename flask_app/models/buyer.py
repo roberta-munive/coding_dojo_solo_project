@@ -1,7 +1,7 @@
 from flask_app import app
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash, session
-from flask_app.models import user
+from flask_app.models import user, address
 import re, datetime
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -18,6 +18,7 @@ class Buyer:
         self.updated_at = data['updated_at']
         self.user_id = data['user_id']
         self.realtor = None
+        self.all_addresses = []
         
     # Create Buyer Models
 
@@ -41,18 +42,45 @@ class Buyer:
 
     # Read Buyer Models
 
-    @classmethod
-    def get_all_buyers(cls):
-        query = """
-                SELECT * FROM buyers;
-                """
-        results = connectToMySQL(cls.db).query_db(query)
-        all_buyers = []
-        for result in results:
-            this_buyer = cls(result)
-            all_buyers.append(this_buyer)
-        return all_buyers
     
+    @classmethod
+    def get_one_buyer_with_all_addresses_and_properties(cls, buyer_id):
+        pass  #finish this***************************************************************************************************************************
+
+    @classmethod
+    def get_one_buyer_with_all_addresses(cls, id):
+
+        data = {'id' : id}
+
+        query = """
+                SELECT * FROM buyers
+                LEFT JOIN addresses
+                ON buyers.id = addresses.buyer_id
+                WHERE buyers.id = %(id)s;
+                """
+        results = connectToMySQL(cls.db).query_db(query, data)
+        this_buyer = cls(results[0])
+        if results[0]['addresses.id']:
+            for result in results:
+                if result['addresses.id']:
+                    this_buyer.all_addresses.append(address.Address({
+                        'id' : result['addresses.id'],
+                        'street' : result['street'],
+                        'city' : result['city'],
+                        'state' : result['state'],
+                        'zipcode' : result['zipcode'],
+                        'created_at' : result['addresses.created_at'],
+                        'updated_at' : result['addresses.updated_at'],
+                        'buyer_id' : result['buyer_id'],
+                        'buyer_user_id' : result['buyer_user_id']
+                    }))
+        return this_buyer        
+
+
+        
+
+
+
     # @classmethod
     # def get_all_cars_and_users(cls):
     #     query = """

@@ -23,11 +23,27 @@ def create_user():
 def index():
     return render_template("login_and_registration.html")
 
+# @app.route('/users/dashboard')
+# def show_dashboard():
+#     if "logged_in" in session:
+#         if session['logged_in']:
+#             one_user_with_all_buyers =  user.User.get_one_user_with_all_buyers(session['user_id'])
+#             print("*********************************************************************************************")
+#             print(one_user_with_all_buyers)
+#             return render_template("all_buyers_dashboard.html", one_user_with_all_buyers = one_user_with_all_buyers)
+#             # return render_template("all_cars_dashboard.html", all_cars_with_users=buyer.Car.get_all_cars_and_users())
+#             # had this commented out return render_template("all_cars_dashboard.html", user=user.User.get_user_by_id(session['user_id']), all_recipes=recipe.Recipe.get_all_recipes_and_users())
+#     return redirect("/users/logout")
+
 @app.route('/users/dashboard')
 def show_dashboard():
     if "logged_in" in session:
         if session['logged_in']:
-            return render_template("all_buyers_dashboard.html", all_buyers=buyer.Buyer.get_all_buyers())
+            # realtor_id = session['user_id']
+            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+            # print(realtor_id)
+            one_user_with_all_buyers = user.User.get_one_user_by_id_with_all_buyers(session['user_id'])
+            return render_template("all_buyers_dashboard.html", one_user_with_all_buyers=one_user_with_all_buyers)
             # return render_template("all_cars_dashboard.html", all_cars_with_users=buyer.Car.get_all_cars_and_users())
             # had this commented out return render_template("all_cars_dashboard.html", user=user.User.get_user_by_id(session['user_id']), all_recipes=recipe.Recipe.get_all_recipes_and_users())
     return redirect("/users/logout")

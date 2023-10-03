@@ -32,7 +32,7 @@
             </thead>
 
             <tbody>
-                {% for one_buyer in all_buyers %}
+                {% for one_buyer in one_user_with_all_buyers.all_buyers %}
                 <tr>
                 <td class="text-center">{{ one_buyer.first_name }} {{ one_buyer.last_name}}</td>
                 <td>
@@ -54,7 +54,7 @@
                 {% if session.user_id == one_buyer.user_id %}  
                     
                     <td class="d-flex justify-content-around">
-                        <a href="/addresses/view/{{one_buyer.id}}">properties</a>
+                        <a href="/buyers/view/{{one_buyer.id}}">properties</a>
                         <p>|</p>
                         <a href="/buyers/delete/{{one_buyer.id}}">delete</a>
                         

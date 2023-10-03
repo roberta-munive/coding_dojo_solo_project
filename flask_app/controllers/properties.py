@@ -16,10 +16,11 @@ def add_property(buyer_id, address_id):
         property_id = property.Property.create_property(request.form)
         if not property_id:
             flash("Unable to add property.", "error")
-            buyer_info = buyer.Buyer.get_buyer_by_id(buyer_id)
-            address_info = address.Address.get_address_by_id(address_id)
-            return render_template("add_property_info_form.html", buyer_info=buyer_info, address_info=address_info)
-    route_path = f"/addresses/view/{buyer_id}"    
+            # buyer_info = buyer.Buyer.get_buyer_by_id(buyer_id) *******************
+            # address_info = address.Address.get_address_by_id(address_id)***************
+            one_address_with_buyer_info = address.Address.get_one_address_with_buyer_info(address_id)
+            return render_template("add_property_info_form.html", one_address_with_buyer_info=one_address_with_buyer_info)
+    route_path = f"/buyers/view/{buyer_id}"    
     return redirect(route_path)
 
 # # Read Properties Controller
@@ -44,13 +45,12 @@ def add_property(buyer_id, address_id):
 #     all_cars_with_users=buyer.Car.get_all_cars_and_users()
 #     return render_template("all_cars_dashboard.html", all_cars_with_users=all_cars_with_users) 
 
-@app.route('/properties/new_property_info_form/<int:buyer_id>/<int:address_id>')
-def show_add_property_info_form(buyer_id, address_id):
+@app.route('/properties/new_property_info_form/<int:address_id>')
+def show_add_property_info_form(address_id):
     if "user_id" not in session:
         return redirect("/")
-    buyer_info = buyer.Buyer.get_buyer_by_id(buyer_id)
-    address_info = address.Address.get_address_by_id(address_id)
-    return render_template("add_property_info_form.html", buyer_info=buyer_info, address_info=address_info)
+    one_address_with_buyer_info = address.Address.get_one_address_with_buyer_info(address_id)
+    return render_template("add_property_info_form.html", one_address_with_buyer_info=one_address_with_buyer_info)
 
     
 # @app.route('/show/<int:car_id>')

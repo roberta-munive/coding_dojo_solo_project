@@ -21,7 +21,7 @@ class Property:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.address_id = data['address_id']
-        self.address = None 
+        self.this_address = None 
         
     # Create Property Models
 

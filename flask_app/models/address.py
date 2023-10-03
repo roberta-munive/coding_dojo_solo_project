@@ -20,7 +20,7 @@ class Address:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.buyer = None
-        self.property = None
+        self.property_details = None
         self.realtor = None
         
     # Create Address Models
@@ -92,18 +92,89 @@ class Address:
 
         return all_addresses_with_properties
 
-    @classmethod
-    def get_all_addresses_for_one_buyer(cls, buyer_id):
+    # @classmethod
+    # def get_all_addresses_for_one_buyer(cls, buyer_id):
+    #     query = """
+    #             SELECT * FROM addresses
+    #             WHERE addresses.buyer_id = buyer_id;
+    #             """
+    #     results = connectToMySQL(cls.db).query_db(query)
+    #     all_addresses_for_one_buyer = []
+    #     for result in results:
+    #         this_address = cls(result)
+    #         all_addresses_for_one_buyer.append(this_address)
+    #     return all_addresses_for_one_buyer
+    
+    @classmethod 
+    def get_one_address_with_buyer_info(cls, id):
+
+        data = {'id' : id}
+
         query = """
-                SELECT * FROM addresses
-                WHERE addresses.buyer_id = buyer_id;
+                SELECT * from addresses
+                LEFT JOIN buyers 
+                ON addresses.buyer_id = buyers.id 
+                WHERE addresses.id = %(id)s;
                 """
-        results = connectToMySQL(cls.db).query_db(query)
-        all_addresses_for_one_buyer = []
-        for result in results:
+        results= connectToMySQL(cls.db).query_db(query, data)
+        result = results[0]
+        if result:
             this_address = cls(result)
-            all_addresses_for_one_buyer.append(this_address)
-        return all_addresses_for_one_buyer
+            this_address.buyer=buyer.Buyer({
+                'id': result['buyers.id'],
+                'first_name' : result['first_name'],
+                'last_name' : result['last_name'],
+                'status' : result['status'],
+                'created_at' : result['buyers.created_at'],
+                'updated_at' : result['buyers.updated_at'],
+                'user_id' : result['user_id']
+            })
+            
+        return this_address
+    
+    @classmethod
+    def get_one_address_with_property_and_buyer_info(cls, id):
+
+        data = {'id' : id}
+
+        query = """
+                SELECT * from addresses
+                LEFT JOIN buyers 
+                ON addresses.buyer_id = buyers.id
+                LEFT JOIN properties
+                ON properties.address_id = addresses.id
+                WHERE addresses.id = %(id)s;
+                """
+        results= connectToMySQL(cls.db).query_db(query, data)
+        result = results[0]
+        if result:
+            this_address = cls(result)
+            this_address.buyer=buyer.Buyer({
+                'id': result['buyers.id'],
+                'first_name' : result['first_name'],
+                'last_name' : result['last_name'],
+                'status' : result['status'],
+                'created_at' : result['buyers.created_at'],
+                'updated_at' : result['buyers.updated_at'],
+                'user_id' : result['user_id']
+            })
+
+            this_address.property_details=property.Property({
+                'id': result['properties.id'],
+                'status' : result['properties.status'],
+                'client_ranking' : result['client_ranking'],
+                'property_type' : result['property_type'],
+                'year_constructed' : result['year_constructed'],
+                'list_price' : result['list_price'],
+                'positives' : result['positives'],
+                'negatives' : result['negatives'],
+                'created_at' : result['properties.created_at'],
+                'updated_at' : result['properties.updated_at'],
+                'address_id' : result['address_id']
+                
+            })
+
+        return this_address
     
     # @classmethod
     # def get_all_cars_and_users(cls):

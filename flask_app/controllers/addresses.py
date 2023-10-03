@@ -18,7 +18,7 @@ def add_address(buyer_id):
             buyer_info = buyer.Buyer.get_buyer_by_id(buyer_id)
             flash("Unable to add address.", "error")
             return render_template("add_property_address_form.html", buyer_info=buyer_info)
-    route_path = f"/properties/new_property_info_form/{buyer_id}/{address_id}"  
+    route_path = f"/properties/new_property_info_form/{address_id}"  
     return redirect(route_path)
 
 # Read Addresses Controller
@@ -30,14 +30,24 @@ def show_add_property_address_form(buyer_id):
     buyer_info = buyer.Buyer.get_buyer_by_id(buyer_id)
     return render_template("add_property_address_form.html", buyer_info=buyer_info)
 
-@app.route('/addresses/view/<int:buyer_id>')
-def get_all_addresses_for_one_buyer(buyer_id):
+@app.route('/addresses/view_one/<int:address_id>')
+def get_one_address_with_property_and_buyer_info(address_id):
         if "logged_in" in session:
             if session['logged_in']:
-                buyer_info = buyer.Buyer.get_buyer_by_id(buyer_id)
-                all_addresses_for_one_buyer = address.Address.get_all_addresses_for_one_buyer(buyer_id)
-                return render_template("all_properties_for_one_buyer.html", buyer_info=buyer_info, all_addresses_for_one_buyer=all_addresses_for_one_buyer)
+                one_address_with_property_and_buyer_info = address.Address.get_one_address_with_property_and_buyer_info(address_id)
+                return render_template("view_property.html", one_address_with_property_and_buyer_info=one_address_with_property_and_buyer_info)
         return redirect("/users/logout")
+
+
+
+# @app.route('/addresses/view/<int:buyer_id>')
+# def get_all_addresses_for_one_buyer(buyer_id):
+#         if "logged_in" in session:
+#             if session['logged_in']:
+#                 buyer_info = buyer.Buyer.get_buyer_by_id(buyer_id)
+#                 all_addresses_for_one_buyer = address.Address.get_all_addresses_for_one_buyer(buyer_id)
+#                 return render_template("all_properties_for_one_buyer.html", buyer_info=buyer_info, all_addresses_for_one_buyer=all_addresses_for_one_buyer)
+#         return redirect("/users/logout")
 
 
 # @app.route('/dashboard')

@@ -36,16 +36,24 @@ def show_add_buyer_form():
         return redirect("/")
     return render_template("add_buyer.html")
 
+@app.route('/buyers/view/<int:buyer_id>')
+def get_one_buyer_with_all_addresses(buyer_id):
+        if "logged_in" in session:
+            if session['logged_in']:
+                one_buyer_with_all_addresses = buyer.Buyer.get_one_buyer_with_all_addresses(buyer_id)
+                return render_template("all_properties_for_one_buyer.html", one_buyer_with_all_addresses=one_buyer_with_all_addresses)
+        return redirect("/users/logout")
+
 # @app.route('/buyers/get_all')
 # def get_all_cars_with_users():
 #     all_cars_with_users=buyer.Car.get_all_cars_and_users()
 #     return render_template("all_cars_dashboard.html", all_cars_with_users=all_cars_with_users) 
     
-@app.route('/buyers/get_all_buyers')
-def get_all_buyers():
-    all_buyers = buyer.Buyer.get_all_buyers()
+@app.route('/buyers/get_all_buyers/<int:realtor_id>')
+def get_all_buyers(realtor_id):
+    one_user_with_all_buyers = buyer.Buyer.get_all_buyers_for_one_user(realtor_id)
 
-    return render_template("all_buyers_dashboard.html", all_buyers=all_buyers)
+    return render_template("all_buyers_dashboard.html", one_user_with_all_buyers=one_user_with_all_buyers)
 
 # @app.route('/show/<int:car_id>')
 # def show_one_car(car_id): 

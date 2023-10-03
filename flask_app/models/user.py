@@ -2,6 +2,7 @@
 from flask_app import app
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash, session
+from flask_app.models import buyer
 import re, datetime
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -17,6 +18,7 @@ class User:
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.all_buyers = []
         
     # Create Users Models
 
@@ -46,6 +48,33 @@ class User:
 
 
     # Read Users Models
+
+    @classmethod
+    def get_one_user_by_id_with_all_buyers(cls, id):
+
+        data = {'id' : id}
+
+        query = """
+                SELECT * FROM users
+                LEFT JOIN buyers
+                ON users.id = buyers.user_id
+                WHERE users.id = %(id)s;
+                """
+        results = connectToMySQL(cls.db).query_db(query, data)
+        this_user = cls(results[0])
+        if results[0]['buyers.id']:
+            for result in results:
+                this_user.all_buyers.append(buyer.Buyer({
+                    'id' : result['buyers.id'],
+                    'first_name' : result['buyers.first_name'],
+                    'last_name' : result['buyers.last_name'],
+                    'status' : result['status'],
+                    'created_at' : result['buyers.created_at'],
+                    'updated_at' : result['buyers.updated_at'],
+                    'user_id' : result['user_id'],
+                }))
+        return this_user
+
 
     # the get_user_by_email method will be used when we need to retrieve just one specific row of the table
     @classmethod
