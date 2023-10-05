@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <button type="submit" formaction="/buyers/create_buyer" method="post" class="btn btn-primary bg-dark" name="add_buyer_btn" id="add_buyer_btn">Add Buyer</button>
+            <button type="submit" formaction="/buyers/create_buyer/{{session.user_id}}" method="post" class="btn btn-primary bg-dark" name="add_buyer_btn" id="add_buyer_btn">Add Buyer</button>
         </form>
         {% with messages = get_flashed_messages(with_categories=true) %}  
             {% if messages %}

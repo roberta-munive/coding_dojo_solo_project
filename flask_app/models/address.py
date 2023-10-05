@@ -46,22 +46,18 @@ class Address:
 
     @classmethod
     def get_all_addresses_with_property_info_for_one_buyer(cls, buyer_id):
-        # one_buyer = buyer.Buyer.get_buyer_by_id(buyer_id)
-        # query = """
-        #         SELECT * FROM properties
-        #         LEFT JOIN addresses
-        #         ON properties.address_id = addresses.id
-        #         WHERE properties.buyer_id = buyer_id;
-        #         """
+
+        data = {buyer_id: buyer_id}
+
         query = """
                 SELECT * FROM buyers
                 LEFT JOIN addresses 
                 ON buyers.id = addresses.buyer_id
                 LEFT JOIN properties
                 ON properties.address_id = addresses.id
-                WHERE addresses.buyer_id = buyer_id;
+                WHERE address.buyer_id = %(buyer_id)s;
                 """
-        results = connectToMySQL(cls.db).query_db(query)
+        results = connectToMySQL(cls.db).query_db(query, data)
         all_addresses_with_properties = []
         for result in results:
             this_address = cls(result)
@@ -106,9 +102,9 @@ class Address:
     #     return all_addresses_for_one_buyer
     
     @classmethod 
-    def get_one_address_with_buyer_info(cls, id):
+    def get_one_address_with_buyer_info(cls, address_id):
 
-        data = {'id' : id}
+        data = {'id' : address_id}
 
         query = """
                 SELECT * from addresses
@@ -133,9 +129,9 @@ class Address:
         return this_address
     
     @classmethod
-    def get_one_address_with_property_and_buyer_info(cls, id):
+    def get_one_address_with_property_and_buyer_info(cls, address_id):
 
-        data = {'id' : id}
+        data = {'id' : address_id}
 
         query = """
                 SELECT * from addresses
@@ -202,12 +198,14 @@ class Address:
 
     # # the get_address_by_id method will be used when we need to retrieve just one specific row of the table
     @classmethod
-    def get_address_by_id(cls, id):
+    def get_address_by_id(cls, address_id):
+
+        data = {'id': address_id}
         query = """
                 SELECT * FROM addresses
                 WHERE id = %(id)s;
         """
-        data = {'id': id}
+        
         results = connectToMySQL(cls.db).query_db(query, data)  # a list with one dictionary in it
         one_address = cls(results[0])
         return one_address # returns address object

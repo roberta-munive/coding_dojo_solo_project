@@ -50,9 +50,9 @@ class User:
     # Read Users Models
 
     @classmethod
-    def get_one_user_by_id_with_all_buyers(cls, id):
+    def get_one_user_by_id_with_all_buyers(cls, user_id):
 
-        data = {'id' : id}
+        data = {'id' : user_id}
 
         query = """
                 SELECT * FROM users

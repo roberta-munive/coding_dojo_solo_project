@@ -48,9 +48,9 @@ class Buyer:
         pass  #finish this***************************************************************************************************************************
 
     @classmethod
-    def get_one_buyer_with_all_addresses(cls, id):
+    def get_one_buyer_with_all_addresses(cls, buyer_id):
 
-        data = {'id' : id}
+        data = {'id' : buyer_id}
 
         query = """
                 SELECT * FROM buyers
@@ -107,12 +107,12 @@ class Buyer:
 
     # # the get_buyer_by_id method will be used when we need to retrieve just one specific row of the table
     @classmethod
-    def get_buyer_by_id(cls, id):
+    def get_buyer_by_id(cls, buyer_id):
         query = """
                 SELECT * FROM buyers
                 WHERE id = %(id)s;
         """
-        data = {'id': id}
+        data = {'id': buyer_id}
         results = connectToMySQL(cls.db).query_db(query, data)  # a list with one dictionary in it
         one_buyer = cls(results[0])
         return one_buyer # returns buyer object
