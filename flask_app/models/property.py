@@ -44,54 +44,6 @@ class Property:
 
     # Read Property Models
 
-    # @classmethod
-    # def get_all_cars_and_users(cls):
-    #     query = """
-    #             SELECT * FROM cars
-    #             LEFT JOIN users
-    #             ON cars.user_id = users.id;
-    #             """
-    #     results = connectToMySQL(cls.db).query_db(query)
-    #     all_cars_with_users = []
-    #     for result in results:
-    #         this_car = cls(result)
-    #         this_car.owner = user.User({
-    #             'id' : result['users.id'],
-    #             'first_name' : result['first_name'],
-    #             'last_name' : result['last_name'],
-    #             'email' : result['email'],
-    #             'password' : result['password'],
-    #             'created_at' : result['users.created_at'],
-    #             'updated_at' : result['users.updated_at']
-    #         })
-    #         all_cars_with_users.append(this_car)
-    #     return all_cars_with_users
-
-
-    # # the get_property_by_id method will be used when we need to retrieve just one specific row of the table
-    # @classmethod
-    # def get_car_by_id(cls, id):
-    #     query = """
-    #             SELECT * FROM cars
-    #             WHERE id = %(id)s;
-    #     """
-    #     data = {'id': id}
-    #     results = connectToMySQL(cls.db).query_db(query, data)  # a list with one dictionary in it
-    #     one_car = cls(results[0])
-    #     return one_car # returns car object
-    
-    # @classmethod
-    # def get_car_by_id_with_user(cls, id):
-    #     query = """
-    #             SELECT * FROM cars
-    #             LEFT JOIN users
-    #             ON cars.user_id = users.id
-    #             WHERE cars.id = %(id)s;
-    #             """
-    #     data = {'id': id}
-    #     results = connectToMySQL(cls.db).query_db(query, data)  # a list with one dictionary in it
-    #     one_car=results[0] # one dictionary
-    #     return one_car # returns property dictionary
 
 
     # Update Property Models
@@ -126,34 +78,10 @@ class Property:
         return True
     
 
-    # # Delete Car Models
+    # Delete Car Models
 
-    # @classmethod
-    # def delete_car(cls, id):
-    #     this_car = cls.get_car_by_id(id)
-        
-    #     if session['user_id'] != this_car.user_id:
-    #         return False
-        
-    #     query = """
-    #             DELETE FROM cars
-    #             WHERE id = %(id)s;
-    #     """
-    #     data = {'id': id}
-    #     return connectToMySQL(cls.db).query_db(query, data)
     
-    # @classmethod
-    # def purchase_car(cls, id):
-    #     this_car = cls.get_car_by_id(id)
-        
-    #     query = """
-    #             DELETE FROM cars
-    #             WHERE id = %(id)s;
-    #     """
-    #     data = {'id': id}
-    #     return connectToMySQL(cls.db).query_db(query, data)
-    
-    # # Validation      
+    # Validation      
 
     @staticmethod
     def validate_property(property):

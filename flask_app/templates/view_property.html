@@ -53,6 +53,20 @@
                 </div>
                 <div class="row">
                     <div class="col-4">
+                        <p>Year Constructed:</p>
+                    </div>
+                    {% if one_address_with_property_and_buyer_info.property_details.property_type != "Unimproved Land" %}
+                    <div class="col-8 mb-3">
+                        {{one_address_with_property_and_buyer_info.property_details.year_constructed}}
+                    </div>
+                    {% else %}
+                        <div class="col-8 mb-3">
+                            N/A
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-4">
                         <p>List Price:</p>
                     </div>
                     <div class="col-8 mb-3 currency-format">
@@ -77,20 +91,9 @@
 
                     <a class="btn btn-outline-primary mt-3 mb-3 ml-3" href="/properties/edit_property_form/{{one_address_with_property_and_buyer_info.id}}" role="button">Edit Property</a>
     
-
                 </div>
             </div>
-
-            
         </div>
-
-
-
-
-
-
-
-    
     </div>    
     
     
@@ -99,6 +102,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 </body>
 </html>
-
-<!-- Format for adding images -->
-<!-- <img src="{{ url_for('static', filename='images/img.png') }}"> -->

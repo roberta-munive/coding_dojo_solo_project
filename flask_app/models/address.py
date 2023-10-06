@@ -61,7 +61,7 @@ class Address:
         all_addresses_with_properties = []
         for result in results:
             this_address = cls(result)
-            # this_address.buyer = one_buyer
+        
             this_address.buyer = buyer.Buyer({
                 'id' : result['buyers.id'],
                 'first_name' : result['first_name'],
@@ -71,7 +71,7 @@ class Address:
                 'created_at' : result['buyers.created_at'],
                 'updated_at' : result['buyers.updated_at']
             })
-            this_address.property = property.Property({
+            this_address.property_details = property.Property({
                 'id' : result['properties.id'],
                 'status' : result['properties.status'],
                 'client_ranking' : result['client_ranking'],
@@ -87,19 +87,6 @@ class Address:
             all_addresses_with_properties.append(this_address)
 
         return all_addresses_with_properties
-
-    # @classmethod
-    # def get_all_addresses_for_one_buyer(cls, buyer_id):
-    #     query = """
-    #             SELECT * FROM addresses
-    #             WHERE addresses.buyer_id = buyer_id;
-    #             """
-    #     results = connectToMySQL(cls.db).query_db(query)
-    #     all_addresses_for_one_buyer = []
-    #     for result in results:
-    #         this_address = cls(result)
-    #         all_addresses_for_one_buyer.append(this_address)
-    #     return all_addresses_for_one_buyer
     
     @classmethod 
     def get_one_address_with_buyer_info(cls, address_id):
@@ -172,31 +159,7 @@ class Address:
 
         return this_address
     
-    # @classmethod
-    # def get_all_cars_and_users(cls):
-    #     query = """
-    #             SELECT * FROM cars
-    #             LEFT JOIN users
-    #             ON cars.user_id = users.id;
-    #             """
-    #     results = connectToMySQL(cls.db).query_db(query)
-    #     all_cars_with_users = []
-    #     for result in results:
-    #         this_car = cls(result)
-    #         this_car.owner = user.User({
-    #             'id' : result['users.id'],
-    #             'first_name' : result['first_name'],
-    #             'last_name' : result['last_name'],
-    #             'email' : result['email'],
-    #             'password' : result['password'],
-    #             'created_at' : result['users.created_at'],
-    #             'updated_at' : result['users.updated_at']
-    #         })
-    #         all_cars_with_users.append(this_car)
-    #     return all_cars_with_users
-
-
-    # # the get_address_by_id method will be used when we need to retrieve just one specific row of the table
+    # the get_address_by_id method will be used when we need to retrieve just one specific row of the table
     @classmethod
     def get_address_by_id(cls, address_id):
 
@@ -210,49 +173,12 @@ class Address:
         one_address = cls(results[0])
         return one_address # returns address object
     
-    # @classmethod
-    # def get_car_by_id_with_user(cls, id):
-    #     query = """
-    #             SELECT * FROM cars
-    #             LEFT JOIN users
-    #             ON cars.user_id = users.id
-    #             WHERE cars.id = %(id)s;
-    #             """
-    #     data = {'id': id}
-    #     results = connectToMySQL(cls.db).query_db(query, data)  # a list with one dictionary in it
-    #     one_car=results[0] # one dictionary
-    #     return one_car # returns address dictionary
 
+    # Update Address Models
 
-    # # Update Address Models
-
-    # @classmethod
-    # def update_car(cls, data):  
-
-    #     this_car = cls.get_car_by_id(data['id'])
-    #     if session['user_id'] != this_car.user_id:
-    #         return False
-        
-    #     is_valid = cls.validate_car(data)
-
-    #     if not is_valid:
-    #         return False
-        
-        
-    #     query = """
-    #             UPDATE cars
-    #             SET price = %(price)s,
-    #                 model = %(model)s,
-    #                 make = %(make)s,
-    #                 year = %(year)s,
-    #                 description = %(description)s
-    #             WHERE id=%(id)s;    
-    #     """
-    #     connectToMySQL(cls.db).query_db(query, data)
-    #     return True
     
 
-    # Delete Car Models
+    # Delete Address Models
 
     @classmethod
     def delete_address(cls, address_id):
@@ -270,18 +196,8 @@ class Address:
         
         return connectToMySQL(cls.db).query_db(query, data)
     
-    # @classmethod
-    # def purchase_car(cls, id):
-    #     this_car = cls.get_car_by_id(id)
-        
-    #     query = """
-    #             DELETE FROM cars
-    #             WHERE id = %(id)s;
-    #     """
-    #     data = {'id': id}
-    #     return connectToMySQL(cls.db).query_db(query, data)
     
-    # # Validation      
+    # Validation
 
     @staticmethod
     def validate_address(address):
