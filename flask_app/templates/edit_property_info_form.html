@@ -8,33 +8,37 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}" defer></script>
-    <title>Add Property Info</title>
+    <title>Edit Property Info</title>
 </head>
 <body>
 
     <div class="container mx-auto">
         
         <div class="row d-flex align-items-center justify-content-between mt-5">
-                <h1 class="mt-5 mb-3">Add Property Information</h1>
+                <h1 class="mt-5 mb-3">Edit Property Details</h1>
                 <div class="d-flex align-items-center justify-content-between">
-                    <a class="btn btn-outline-primary mt-5 mb-3 mr-4" href="/buyers/view/{{one_address_with_buyer_info.buyer.id}}" role="button">All Properties</a>
+                    <a class="btn btn-outline-primary mt-5 mb-3 mr-4" href="/buyers/view/{{one_address_with_property_and_buyer_info.buyer.id}}" role="button">All Properties</a>
                     <a class="btn btn-outline-primary mt-5 mb-3 mr-4" href="/users/dashboard" role="button">All Buyers</a>
                     <a class="btn btn-outline-primary mt-5 mb-3" href="/users/logout" role="button">Logout</a>
                 </div>
         </div>
 
-        <h3 class="mb-5">Buyer Client:  <span class="text-primary">{{one_address_with_buyer_info.buyer.first_name}} {{one_address_with_buyer_info.buyer.last_name}}</span></h3>
-        <h2 class="text-center mb-3">{{one_address_with_buyer_info.street}}, {{one_address_with_buyer_info.city}}, {{one_address_with_buyer_info.state}}, {{one_address_with_buyer_info.zipcode}}</h2>
+        <h3 class="mb-5">Buyer Client:  <span class="text-primary">{{one_address_with_property_and_buyer_info.buyer.first_name}} {{one_address_with_property_and_buyer_info.buyer.last_name}}</span></h3>
+        <h2 class="text-center mb-3">{{one_address_with_property_and_buyer_info.street}}, {{one_address_with_property_and_buyer_info.city}}, {{one_address_with_property_and_buyer_info.state}}, {{one_address_with_property_and_buyer_info.zipcode}}</h2>
 
-        <form action="/properties/create_property/{{one_address_with_buyer_info.buyer.id}}/{{one_address_with_buyer_info.id}}" method="post" class="bg-light p-4 px-5 rounded border border-1 p-5">
-            <input type="hidden" name="which_form" value="create_property">
-            <input type="hidden" name="address_id" value={{one_address_with_buyer_info.id}}>
+        <h3></h3>
+        
+        <form action="/properties/edit_property/{{one_address_with_property_and_buyer_info.id}}" method="post" class="bg-light p-4 px-5 rounded border border-1 p-5">
+            <input type="hidden" name="which_form" value="edit_property">
+            <input type="hidden" name="address_id" value={{one_address_with_property_and_buyer_info.id}}>
+            <input type="hidden" name="id" value={{one_address_with_property_and_buyer_info.property_details.id}}>
+
             <div class="form-row d-flex justify-content-between">
                 <div class="col-md-3 mb-3">
                     <div class="form-group mb-4">
                         <label class="" for="status">Status:</label>
-                        <select class="form-control" name="status" id="status">
-                            <option selected>Choose Property Status...</option>
+                        <select class="form-control" name="status" id="status" value={{one_address_with_property_and_buyer_info.property_details.status}}>
+                            <option selected>{{one_address_with_property_and_buyer_info.property_details.status}}</option>
                             <option value="Not Interested">Not Interested</option>
                             <option value="Under Consideration">Under Consideration</option>
                             <option value="Undecided">Undecided</option>
@@ -48,7 +52,7 @@
                 <div class="col-md-2 mb-3">
                     <div class="form-group mb-4">
                         <label class="" for="client_ranking">Client Ranking:</label>
-                        <input class="form-control" type="number" min="0" max="100" name="client_ranking" id="client_ranking">
+                        <input class="form-control" type="number" min="0" max="100" name="client_ranking" id="client_ranking" value={{one_address_with_property_and_buyer_info.property_details.client_ranking}}>
                     </div>
                 </div>
             </div>
@@ -56,8 +60,8 @@
                 <div class="col-md-3 mb-3">
                     <div class="form-group mb-4">
                         <label class="" for="property_type">Property Type:</label>
-                        <select class="form-control" name="property_type" id="property_type">
-                            <option selected>Choose Property Type...</option>
+                        <select class="form-control" name="property_type" id="property_type" value={{one_address_with_property_and_buyer_info.property_details.property_type}}>
+                            <option selected>{{one_address_with_property_and_buyer_info.property_details.property_type}}</option>
                             <option value="Unimproved Land">Unimproved Land</option>
                             <option value="New Construction">New Construction</option>
                             <option value="PreOwned Single Family">PreOwned Single Family</option>
@@ -70,7 +74,7 @@
                 <div class="col-md-2 mb-3">
                     <div class="form-group mb-4">
                         <label class="" for="year_constructed">Year Constructed:</label>
-                        <input class="form-control" type="number" min="0" max="4000" name="year_constructed" id="year_constructed">
+                        <input class="form-control" type="number" min="0" max="4000" name="year_constructed" id="year_constructed" value={{one_address_with_property_and_buyer_info.property_details.year_constructed}}>
                     </div>
                 </div>
             </div>
@@ -78,7 +82,7 @@
                 <div class="col-md-3 mb-3">
                     <div class="form-group mb-4 align-items-center">
                         <label class="" for="list_price">List Price:</label>
-                        <input class="form-control" type="number" min="0" max="100000000" name="list_price" id="list_price">
+                        <input class="form-control" type="number" min="0" max="100000000" name="list_price" id="list_price" value={{one_address_with_property_and_buyer_info.property_details.list_price}}>
                     </div>
                 </div>
             </div>
@@ -87,18 +91,18 @@
                 <div class="col-md-5 mb-3">
                     <div class="form-group mb-4">
                         <label class="" for="positives">Positives:</label>
-                        <textarea class="form-control" rows="10" name="positives" id="positives"></textarea>
+                        <textarea class="form-control" rows="10" name="positives" id="positives" value=>{{one_address_with_property_and_buyer_info.property_details.positives}}</textarea>
                     </div>
                 </div>
                 <div class="col-md-5 mb-3">
                     <div class="form-group mb-4">
                         <label class="" for="negatives">Negatives:</label>
-                        <textarea class="form-control" rows="10" name="negatives" id="negatives"></textarea>
+                        <textarea class="form-control" rows="10" name="negatives" id="negatives" value=>{{one_address_with_property_and_buyer_info.property_details.negatives}}</textarea>
                     </div>
                 </div>
             </div>
 
-            <button type="submit" formaction="/properties/create_property/{{one_address_with_buyer_info.buyer.id}}/{{one_address_with_buyer_info.id}}" method="post" class="btn btn-primary bg-dark" name="submit_btn" id="submit_btn">Add Property</button>
+            <button type="submit" formaction="/properties/update_property/{{one_address_with_property_and_buyer_info.id}}/{{one_address_with_property_and_buyer_info.property_details.id}}" method="post" class="btn btn-primary bg-dark" name="submit_btn" id="submit_btn">Update Property</button>
         </form>
         {% with messages = get_flashed_messages(with_categories=true) %}  
             {% if messages %}

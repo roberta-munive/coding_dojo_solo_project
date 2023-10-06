@@ -94,32 +94,50 @@ class Property:
     #     return one_car # returns property dictionary
 
 
-    # # Update Property Models
+    # Update Property Models
 
-    # @classmethod
-    # def update_car(cls, data):  
+    @classmethod
+    def update_property(cls, property_data):  
 
-    #     this_car = cls.get_car_by_id(data['id'])
-    #     if session['user_id'] != this_car.user_id:
-    #         return False
-        
-    #     is_valid = cls.validate_car(data)
+        property_data = property_data.copy()
 
-    #     if not is_valid:
-    #         return False
+        this_address = address.Address.get_address_by_id(property_data['address_id'])
+
+        print("status********************************", property_data['status'])
+        print("id********************************", property_data['id'])
+        print("client_ranking********************************", property_data['client_ranking'])
+        print("property_type********************************", property_data['property_type'])
+        print("year_constructed********************************", property_data['year_constructed'])
+        print("list_price********************************", property_data['list_price'])
+        print("positives********************************", property_data['positives'])
+        print("negatives********************************", property_data['negatives'])
+
+
+        if session['user_id'] != this_address.buyer_user_id:
+            return False
+        
+        is_valid = cls.validate_property(property_data)
+
+        if not is_valid:
+            return False
+        
+
+        print("Is valid")
         
         
-    #     query = """
-    #             UPDATE cars
-    #             SET price = %(price)s,
-    #                 model = %(model)s,
-    #                 make = %(make)s,
-    #                 year = %(year)s,
-    #                 description = %(description)s
-    #             WHERE id=%(id)s;    
-    #     """
-    #     connectToMySQL(cls.db).query_db(query, data)
-    #     return True
+        query = """
+                UPDATE properties
+                SET status = %(status)s,
+                    client_ranking = %(client_ranking)s,
+                    property_type = %(property_type)s,
+                    year_constructed = %(year_constructed)s,
+                    list_price = %(list_price)s,
+                    positives = %(positives)s,
+                    negatives = %(negatives)s
+                WHERE id=%(id)s;    
+                """
+        connectToMySQL(cls.db).query_db(query, property_data)
+        return True
     
 
     # # Delete Car Models

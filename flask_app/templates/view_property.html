@@ -63,7 +63,7 @@
                     <div class="col-4">
                         <p>Positives:</p>
                     </div>
-                    <div class="col-8 mb-3">
+                    <div class="col-8 mb-3 preserve_new_line_from_user_input">
                         {{one_address_with_property_and_buyer_info.property_details.positives}}
                     </div>
                 </div>
@@ -71,11 +71,11 @@
                     <div class="col-4">
                         <p>Negatives:</p>
                     </div>
-                    <div class="col-8 mb-3">
+                    <div class="col-8 mb-3 preserve_new_line_from_user_input">
                         {{one_address_with_property_and_buyer_info.property_details.negatives}}
                     </div>
 
-                    <a class="btn btn-outline-primary mt-3 mb-3 ml-3" href="#" role="button">Edit Property</a>
+                    <a class="btn btn-outline-primary mt-3 mb-3 ml-3" href="/properties/edit_property_form/{{one_address_with_property_and_buyer_info.id}}" role="button">Edit Property</a>
     
 
                 </div>

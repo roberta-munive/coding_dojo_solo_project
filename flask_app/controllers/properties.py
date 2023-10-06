@@ -64,27 +64,31 @@ def show_add_property_info_form(address_id):
 
 # # Update Properties Controller
 
-# @app.route('/edit/<int:car_id>')
-# def show_update_car_form(car_id):
-#     if "logged_in" in session:
-#         if session['logged_in']:
-#             one_car = buyer.Car.get_car_by_id(car_id)
-#             return render_template("edit_car.html", one_car=one_car)  
-#     return redirect("/users/logout")    
+@app.route('/properties/edit_property_form/<int:address_id>')
+def show_update_property_form(address_id):
+    if "logged_in" in session:
+        if session['logged_in']:
+            one_address_with_property_and_buyer_info = address.Address.get_one_address_with_property_and_buyer_info(address_id)
+            return render_template("edit_property_info_form.html", one_address_with_property_and_buyer_info=one_address_with_property_and_buyer_info)  
+    return redirect("/users/logout")    
 
-# @app.route('/cars/update/<int:car_id>', methods=['POST'])
-# def update_car(car_id):
+@app.route('/properties/update_property/<int:address_id>/<int:property_id>', methods=['POST'])
+def update_property(address_id, property_id):
 
-#     if "user_id" not in session:
-#         return redirect("/")
+    if "user_id" not in session:
+        return redirect("/")
     
-#     if request.form["which_form"] == "edit_car":
-#         one_car = buyer.Car.update_car(request.form)
+    if request.form["which_form"] == "edit_property":
 
-#         if not one_car:
-#             path = f"/edit/{car_id}"    
-#             return redirect(path)
-#     return redirect('/dashboard')
+        one_property = property.Property.update_property(request.form)
+
+        if not one_property:
+            flash("Unable to update property.", "error")
+            path = f"/properties/edit_property_form/{address_id}"    
+            return redirect(path)
+    one_address_with_property_and_buyer_info = address.Address.get_one_address_with_property_and_buyer_info(address_id)
+    path = f"/addresses/view_one/{address_id}"
+    return redirect(path)
 
 # # Delete Properties Controller
 

@@ -1,5 +1,16 @@
+/* used for flash error messages */
+
 .error{
     color: red;
     font-weight: 500;
 }
+
+
+/* used in view_property.html */
+
+.preserve_new_line_from_user_input{
+    white-space: pre-line;
+}
+
+/* https://stackoverflow.com/questions/30593103/preserve-line-breaks-in-textarea */
 
