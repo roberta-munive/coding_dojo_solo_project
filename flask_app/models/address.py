@@ -252,21 +252,23 @@ class Address:
     #     return True
     
 
-    # # Delete Car Models
+    # Delete Car Models
 
-    # @classmethod
-    # def delete_car(cls, id):
-    #     this_car = cls.get_car_by_id(id)
+    @classmethod
+    def delete_address(cls, address_id):
+        this_address = cls.get_address_by_id(address_id)
         
-    #     if session['user_id'] != this_car.user_id:
-    #         return False
+        if session['user_id'] != this_address.buyer_user_id:
+            return False
         
-    #     query = """
-    #             DELETE FROM cars
-    #             WHERE id = %(id)s;
-    #     """
-    #     data = {'id': id}
-    #     return connectToMySQL(cls.db).query_db(query, data)
+        data = {'id': address_id}
+
+        query = """
+                DELETE FROM addresses
+                WHERE id = %(id)s;
+        """
+        
+        return connectToMySQL(cls.db).query_db(query, data)
     
     # @classmethod
     # def purchase_car(cls, id):

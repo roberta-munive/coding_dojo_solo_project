@@ -106,12 +106,14 @@ def get_one_address_with_property_and_buyer_info(address_id):
 
 # # Delete Addresses Controller
 
-# @app.route('/cars/delete/<int:id>')
-# def delete_car(id):
-#     if "user_id" not in session:
-#         return redirect("/")
-#     buyer.Car.delete_car(id)
-#     return redirect('/cars/get_all')
+@app.route('/addresses/delete/<int:address_id>/<int:buyer_id>')
+def delete_address(address_id, buyer_id):
+    if "user_id" not in session:
+        return redirect("/")
+    if not address.Address.delete_address(address_id):
+        flash("Unable to delete address.", "error")
+    route_path = f"/buyers/view/{buyer_id}"
+    return redirect(route_path)
 
 # @app.route('/cars/purchase/<int:id>')
 # def purchase_car(id):
