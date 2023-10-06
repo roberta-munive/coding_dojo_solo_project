@@ -1,3 +1,12 @@
+/* adds a dollar sign to the list price in view_property.html 
+    The javascript formatting of the list price with commas requires the $ to be added in CSS rather than HTML
+    https://www.geeksforgeeks.org/how-to-format-a-number-as-currency-using-css/ 
+*/
+
+.currencySign::before{
+    content: '$';
+}
+
 /* used for flash error messages */
 
 .error{

@@ -103,16 +103,6 @@ class Property:
 
         this_address = address.Address.get_address_by_id(property_data['address_id'])
 
-        print("status********************************", property_data['status'])
-        print("id********************************", property_data['id'])
-        print("client_ranking********************************", property_data['client_ranking'])
-        print("property_type********************************", property_data['property_type'])
-        print("year_constructed********************************", property_data['year_constructed'])
-        print("list_price********************************", property_data['list_price'])
-        print("positives********************************", property_data['positives'])
-        print("negatives********************************", property_data['negatives'])
-
-
         if session['user_id'] != this_address.buyer_user_id:
             return False
         
@@ -120,10 +110,6 @@ class Property:
 
         if not is_valid:
             return False
-        
-
-        print("Is valid")
-        
         
         query = """
                 UPDATE properties
